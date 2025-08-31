@@ -1,0 +1,55 @@
+
+    body {
+      font-family: Arial, sans-serif;
+       
+    }
+    .header {
+      background: skyblue;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      text-align: center;
+      margin: 50px auto;
+      max-width: 600px;
+    }
+   h1{
+    font-family: 'Poppins',sans-serif;
+    font-size: 30px;
+    text-transform: uppercase;
+
+    background: linear-gradient(to right,#fc72ff,#8f68ff,#487bff,#8f68ff,#fc72ff);
+    background-size: 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: animate-gradient 2.5s linear infinite;
+}
+@keyframes animate-gradient{
+    to{
+      background-position: 200%;  
+    }
+}
+    p { font-size: 1.2rem; color: #444; }
+    .btn {
+      display: inline-block;
+      margin: 15px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .login { background: #33bb0e; color: white; }
+    .signup { background: #0a0881; color: white; }
+    
+    .btn:hover { opacity: 0.8; }
+    footer {
+      margin-top: 100px;
+      padding: 15px;
+      text-align: center;
+      background: #eee;
+      color: #666;
+    }
+

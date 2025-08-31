@@ -3,60 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>Blood Bank - Home</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f6f6f6;
-      margin: 0; padding: 0;
-    }
-    header {
-      background: #b71c1c;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    main {
-      text-align: center;
-      margin: 50px auto;
-      max-width: 600px;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-    p { font-size: 1.2rem; color: #444; }
-    .btn {
-      display: inline-block;
-      margin: 15px;
-      padding: 12px 25px;
-      font-size: 1rem;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    .login { background: #d32f2f; color: white; }
-    .signup { background: #388e3c; color: white; }
-    .btn:hover { opacity: 0.8; }
-    footer {
-      margin-top: 100px;
-      padding: 15px;
-      text-align: center;
-      background: #eee;
-      color: #666;
-    }
-  </style>
+  <link rel="stylesheet" href="index.css">
 </head>
-<body>
-  <header>
-    <h1>Welcome to Blood Bank</h1>
+<body >
+  <div class="header">
+    <h1>Welcome to Healthy Life</h1>
     <p>Connecting donors with those in need</p>
-  </header>
+  </div>
 
+ <div class="over"></div>
   <main>
+    
     <h2>Get Started</h2>
     <a href="login.html" class="btn login">Login</a>
     <a href="signup.html" class="btn signup">Sign Up</a>
     <a href="available-blood.html" class="btn login">availability</a>
+    
+   
+        
+        
+    </div>
 
     <section style="margin-top:40px;">
       <h3>About the System</h3>
@@ -66,10 +32,8 @@
       </p>
     </section>
   </main>
+ 
 
-  <footer>
-    © 2025 Blood Bank System
-  </footer>
   <script type="module">
   // Use the Firebase modular SDK via CDN
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
