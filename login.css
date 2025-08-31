@@ -23,7 +23,9 @@
         top: 50%;
         background-color: #ffffff60;
     }
-
+    form h2{
+        color: white;
+    }
     form {
         height: 520px;
         width: 400px;
