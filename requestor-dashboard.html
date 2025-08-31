@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Requester Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f6f6f6;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #b71c1c;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      max-width: 500px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    h2 {
+      color: #b71c1c;
+      text-align: center;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      background: #1976d2;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Requester Dashboard</h1>
+  </header>
+
+  <main>
+    <h2>Make a Blood Request</h2>
+    <form id="requestForm">
+      <input type="text" id="name" placeholder="Your Name" required />
+      <input type="tel" id="phone" placeholder="Phone Number" required />
+      <select id="bloodGroup" required>
+        <option value="">Select Blood Group</option>
+        <option value="A+">A+</option>
+        <option value="A-">A-</option>
+        <option value="B+">B+</option>
+        <option value="B-">B-</option>
+        <option value="O+">O+</option>
+        <option value="O-">O-</option>
+        <option value="AB+">AB+</option>
+        <option value="AB-">AB-</option>
+      </select>
+      <button type="submit">Submit Request</button>
+    </form>
+    <p id="message" style="text-align:center;"></p>
+  </main>
+<script type="module">
+  // Use the Firebase modular SDK via CDN
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { getFirestore, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+  // <-- REPLACE with your config from Firebase console
+  const firebaseConfig = {
+    apiKey: "AIzaSyAVgmIYTi421frp93j9E-EsFeHgphnGVWY",
+    authDomain: "blood-bank-bc166.firebaseapp.com",
+    projectId: "blood-bank-bc166",
+    storageBucket: "blood-bank-bc166.firebasestorage.app",
+    messagingSenderId: "958524635543",
+    appId: "1:958524635543:web:906255f1e2a8f88d05ecd2",
+    measurementId: "G-JVDFV9R9RN"
+  };
+
+  export const app = initializeApp(firebaseConfig);
+  export const auth = getAuth(app);
+  export const db = getFirestore(app);
+  export const timestamp = serverTimestamp;
+</script>
+  <script type="module">
+    import './common-firebase.js';
+    import { db, auth } from './common-firebase.js';
+    import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    const form = document.getElementById('requestForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const bloodGroup = document.getElementById('bloodGroup').value;
+
+      if (!name || !phone || !bloodGroup) {
+        message.textContent = "Please fill all fields.";
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, 'requests'), {
+          name,
+          phone,
+          bloodGroup,
+          createdAt: serverTimestamp()
+        });
+
+        message.style.color = 'green';
+        message.textContent = "Request submitted successfully!";
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        message.style.color = 'red';
+        message.textContent = "Error submitting request. Try again.";
+      }
+    });
+  </script>
+</body>
+</html>

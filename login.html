@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Login</title></head>
+<body>
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input id="email" type="email" placeholder="email" required />
+    <input id="password" type="password" placeholder="password" required />
+    <button>Login</button>
+  </form>
+  <p><a href="signup.html">Sign up</a></p>
+<script type="module">
+  // Use the Firebase modular SDK via CDN
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { getFirestore, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+  // <-- REPLACE with your config from Firebase console
+  const firebaseConfig = {
+    apiKey: "AIzaSyAVgmIYTi421frp93j9E-EsFeHgphnGVWY",
+    authDomain: "blood-bank-bc166.firebaseapp.com",
+    projectId: "blood-bank-bc166",
+    storageBucket: "blood-bank-bc166.firebasestorage.app",
+    messagingSenderId: "958524635543",
+    appId: "1:958524635543:web:906255f1e2a8f88d05ecd2",
+    measurementId: "G-JVDFV9R9RN"
+  };
+
+  export const app = initializeApp(firebaseConfig);
+  export const auth = getAuth(app);
+  export const db = getFirestore(app);
+  export const timestamp = serverTimestamp;
+</script>
+  <script type="module">
+    import './common-firebase.js';
+    import { auth, db } from './common-firebase.js';
+    import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        // fetch role from users collection
+        const udoc = await getDoc(doc(db, 'users', cred.user.uid));
+        if (!udoc.exists()) {
+          // fallback to requester
+          location.href = 'requestor-dashboard.html';
+          return;
+        }
+        const role = udoc.data().role;
+        if (role === 'admin') location.href = 'admin-dashboard.html';
+        else if (role === 'donor') location.href = 'donor-dashboard.html';
+        else location.href = 'requestor-dashboard.html';
+      } catch (err) {
+        alert('Login failed: ' + err.message);
+      }
+    });
+
+    
+  </script>
+</body>
+</html>

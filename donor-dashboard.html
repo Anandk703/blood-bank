@@ -1,0 +1,75 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Donor Dashboard</title></head>
+<body>
+  <h2>Donor Dashboard</h2>
+  <label><input type="checkbox" id="available"> I'm available to donate</label>
+  <h3>Open Requests (matching my blood group)</h3>
+  <ul id="openReqs"></ul>
+  <button id="logout">Logout</button>
+<script type="module">
+  // Use the Firebase modular SDK via CDN
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { getFirestore, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+  // <-- REPLACE with your config from Firebase console
+  const firebaseConfig = {
+    apiKey: "AIzaSyAVgmIYTi421frp93j9E-EsFeHgphnGVWY",
+    authDomain: "blood-bank-bc166.firebaseapp.com",
+    projectId: "blood-bank-bc166",
+    storageBucket: "blood-bank-bc166.firebasestorage.app",
+    messagingSenderId: "958524635543",
+    appId: "1:958524635543:web:906255f1e2a8f88d05ecd2",
+    measurementId: "G-JVDFV9R9RN"
+  };
+
+  export const app = initializeApp(firebaseConfig);
+  export const auth = getAuth(app);
+  export const db = getFirestore(app);
+  export const timestamp = serverTimestamp;
+</script>
+  <script type="module">
+    import './common-firebase.js';
+    import { auth, db } from './common-firebase.js';
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { doc, getDoc, collection, query, where, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    const availableEl = document.getElementById('available');
+    const openReqs = document.getElementById('openReqs');
+    const logoutBtn = document.getElementById('logout');
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return location.href='login.html';
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      const userData = userDoc.data();
+      // set availability checkbox from donors collection
+      const donorDoc = await getDoc(doc(db, 'donors', user.uid));
+      if (donorDoc.exists()) availableEl.checked = donorDoc.data().available;
+      // load matching requests
+      loadOpenRequests(userData.bloodGroup);
+    });
+
+    availableEl.addEventListener('change', async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      await updateDoc(doc(db, 'donors', user.uid), { available: availableEl.checked });
+      alert('Availability updated');
+    });
+
+    async function loadOpenRequests(bloodGroup){
+      openReqs.innerHTML = '';
+      const q = query(collection(db, 'requests'), where('bloodGroupNeeded','==',bloodGroup));
+      const snap = await getDocs(q);
+      if (snap.empty) openReqs.innerHTML = '<li>No matching requests</li>';
+      snap.forEach(docSnap => {
+        const d = docSnap.data();
+        const li = document.createElement('li');
+        li.textContent = `${d.bloodGroupNeeded} — ${d.units} units — ${d.city} — ${d.status}`;
+        li.textContent = `${data.name} — ${data.bloodGroup} — Available: ${data.available} — Phone: ${data.phone}`;
+        openReqs.appendChild(li);
+      });
+    }
+
+    logoutBtn.onclick = async () => { await signOut(auth); location.href='login.html'; };
+  </script>
+</body></html>

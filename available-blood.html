@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Available Blood Donors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #b71c1c;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #b71c1c;
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+    }
+    .blood-group {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #d32f2f;
+    }
+    .name {
+      font-size: 1.2rem;
+      margin: 10px 0;
+    }
+    .phone {
+      color: #444;
+      margin-top: 8px;
+    }
+    .back-btn {
+      display: inline-block;
+      margin: 20px auto;
+      background: #1976d2;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .back-btn:hover {
+      opacity: 0.8;
+    }
+    footer {
+      margin-top: 40px;
+      padding: 15px;
+      text-align: center;
+      background: #eee;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Available Blood Donors</h1>
+  </header>
+
+  <div class="container">
+    <h2>Donor List</h2>
+    <div class="grid" id="donorsGrid">
+      <!-- Donors will load here -->
+    </div>
+    <div style="text-align:center;">
+      <a href="index.html" class="back-btn">⬅ Back to Home</a>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Blood Bank System
+  </footer>
+  
+<script type="module">
+  // Use the Firebase modular SDK via CDN
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { getFirestore, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+  // <-- REPLACE with your config from Firebase console
+  const firebaseConfig = {
+    apiKey: "AIzaSyAVgmIYTi421frp93j9E-EsFeHgphnGVWY",
+    authDomain: "blood-bank-bc166.firebaseapp.com",
+    projectId: "blood-bank-bc166",
+    storageBucket: "blood-bank-bc166.firebasestorage.app",
+    messagingSenderId: "958524635543",
+    appId: "1:958524635543:web:906255f1e2a8f88d05ecd2",
+    measurementId: "G-JVDFV9R9RN"
+  };
+
+  export const app = initializeApp(firebaseConfig);
+  export const auth = getAuth(app);
+  export const db = getFirestore(app);
+  export const timestamp = serverTimestamp;
+</script>
+  <script type="module">
+    import './common-firebase.js';
+    import { db } from './common-firebase.js';
+    import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    const donorsGrid = document.getElementById('donorsGrid');
+
+    async function loadDonors() {
+      donorsGrid.innerHTML = "<p style='grid-column:1/-1;text-align:center;'>Loading...</p>";
+      const q = query(collection(db, 'donors'), where('available', '==', true));
+      const snap = await getDocs(q);
+
+      donorsGrid.innerHTML = '';
+      if (snap.empty) {
+        donorsGrid.innerHTML = "<p style='grid-column:1/-1;text-align:center;'>No donors currently available.</p>";
+        return;
+      }
+
+      snap.forEach(doc => {
+        const d = doc.data();
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="blood-group">${d.bloodGroup}</div>
+          <div class="name">${d.name}</div>
+          <div class="phone">📞 ${d.phone || "Not provided"}</div>
+        `;
+        donorsGrid.appendChild(card);
+      });
+    }
+
+    loadDonors();
+  </script>
+</body>
+</html>
