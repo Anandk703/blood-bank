@@ -1,11 +1,14 @@
 <!doctype html>
 <html><head><meta charset="utf-8"><title>Donor Dashboard</title></head>
+<link rel="stylesheet" href="donar.css">
 <body>
+  <center>
   <h2>Donor Dashboard</h2>
   <label><input type="checkbox" id="available"> I'm available to donate</label>
   <h3>Open Requests (matching my blood group)</h3>
   <ul id="openReqs"></ul>
-  <button id="logout">Logout</button>
+  <button class="glow-on-hover" id="logout">Logout</button>
+  </center>
 <script type="module">
   // Use the Firebase modular SDK via CDN
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";

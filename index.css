@@ -1,9 +1,9 @@
 
     body {
-      font-family: Arial, sans-serif;
+     
        width: 100vw;
   height: 100vh;
-  background: url('hands-of-the-giver-and-the-recipient-to-donate-blood-blood-donation-concept-heart-medical-sign-give-blood-save-life-world-blood-donor-day-june-14-3d-eps10-illustration-vector.jpg');
+  background: url('world-blood-donor-background-free-vector.jpg');
   background-size: cover;
   background-repeat: no-repeat;
        
@@ -36,7 +36,7 @@
       background-position: 200%;  
     }
 }
-    p { font-size: 1.2rem; color: #ffffff; }
+    p { font-size: 1.2rem; color: #000000; }
     .btn {
       display: inline-block;
       margin: 15px;
@@ -46,21 +46,29 @@
       text-decoration: none;
       transition: 0.3s;
     }
-    .login { background: #33bb0e; color: white; }
-    .signup { background: #0a0881; color: white; }
-    
-    .btn:hover { opacity: 0.8; }
-    footer {
-      margin-top: 20%;
-      padding: 15px;
-      text-align: center;
-      background: #000000;
-      color: #ffffff;
-      margin-bottom: 0%;
+    .login { background: #000000; color: white; }
+    .signup { background: #000000; color: white; }
+    .ava{background: #000000; color: white;}
+    .btn:hover { 
+      opacity: 0.8; 
     }
+    .ava:hover{
+      background-color: green;
+      transition: 1.5s;
+    }
+    .signup:hover{
+      background-color: red;
+      transition: 1.5s;
+    }
+    .login:hover{
+      background-color: red;
+      transition: 1.5s;
+    }
+    
+  
 .over{
-  margin-top: 5%;
-display: flex;
-justify-content: center;
-align-items: center;
+  margin-top: 10%;
+  
+  font-family: 'Times New Roman', Times, serif;
+  font-size: large;
 }
