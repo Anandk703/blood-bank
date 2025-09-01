@@ -1,11 +1,16 @@
 
     body {
       font-family: Arial, sans-serif;
+       width: 100vw;
+  height: 100vh;
+  background: url('hands-of-the-giver-and-the-recipient-to-donate-blood-blood-donation-concept-heart-medical-sign-give-blood-save-life-world-blood-donor-day-june-14-3d-eps10-illustration-vector.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
        
     }
     .header {
-      background: skyblue;
-      color: white;
+      background-image: url('SCD-living-why-donate-blood.gif');
+      color: rgb(255, 9, 9);
       padding: 20px;
       text-align: center;
     }
@@ -31,7 +36,7 @@
       background-position: 200%;  
     }
 }
-    p { font-size: 1.2rem; color: #444; }
+    p { font-size: 1.2rem; color: #ffffff; }
     .btn {
       display: inline-block;
       margin: 15px;
@@ -46,10 +51,16 @@
     
     .btn:hover { opacity: 0.8; }
     footer {
-      margin-top: 100px;
+      margin-top: 20%;
       padding: 15px;
       text-align: center;
-      background: #eee;
-      color: #666;
+      background: #000000;
+      color: #ffffff;
+      margin-bottom: 0%;
     }
-
+.over{
+  margin-top: 5%;
+display: flex;
+justify-content: center;
+align-items: center;
+}

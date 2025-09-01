@@ -108,9 +108,7 @@
     </section>
   </main>
 
-  <footer>
-    © 2025 Blood Bank System
-  </footer>
+
  <script type="module">
   // Use the Firebase modular SDK via CDN
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
@@ -141,9 +139,7 @@
     const donorsGrid = document.getElementById('donorsGrid');
     const requestsGrid = document.getElementById('requestsGrid');
 
-    // ----------------------------
-    // Load donors in real-time
-    // ----------------------------
+    
     const donorsRef = collection(db, 'donors');
     const donorsQuery = query(donorsRef, where('available', '==', true));
 
@@ -166,9 +162,7 @@
       });
     });
 
-    // ----------------------------
-    // Load requests in real-time
-    // ----------------------------
+   
     const requestsRef = collection(db, 'requests');
 
     onSnapshot(requestsRef, (snapshot) => {
